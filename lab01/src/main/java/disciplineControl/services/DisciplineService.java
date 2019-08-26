@@ -1,6 +1,7 @@
 package disciplineControl.services;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -25,6 +26,20 @@ public class DisciplineService {
 		return d;
 	}
 
+	public Disciplina deleteDisciplina(int id) {
+		Disciplina d = getDisciplinas(id);
+		removeDisciplina(id);
+		return d;
+	}
+
+	private void removeDisciplina(int id) {
+		for (int i = 0; i < disciplinas.size(); i++) {
+			if (disciplinas.get(i).getId() == id) {
+				disciplinas.remove(i);
+			}
+		}
+	}
+
 	public Disciplina getDisciplinas(int id) {
 		for (int i = 0; i < disciplinas.size(); i++) {
 			if (disciplinas.get(i).getId() == id) {
@@ -34,9 +49,20 @@ public class DisciplineService {
 		return null;
 	}
 
-	public Disciplina setNomeDisciplina(Disciplina d) {
-		Disciplina dSearch = getDisciplinas(d.getId());
-		dSearch.setNome(d.getNome());
-		return dSearch;
+	public Disciplina setNomeDisciplina(int id, Disciplina d) {
+		removeDisciplina(id);
+		disciplinas.add(d);
+		return d;
+	}
+
+	public Disciplina setNotaDisciplina(int id, Disciplina d) {
+		removeDisciplina(id);
+		disciplinas.add(d);
+		return d;
+	}
+
+	public List<Disciplina> getDisciplinesOrdered() {
+		Collections.sort(disciplinas);
+		return disciplinas;
 	}
 }

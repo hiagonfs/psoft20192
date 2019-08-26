@@ -1,6 +1,6 @@
 package disciplineControl.entities;
 
-public class Disciplina {
+public class Disciplina implements Comparable<Disciplina> {
 
 	private String nome;
 	private float nota;
@@ -64,6 +64,16 @@ public class Disciplina {
 		if (Float.floatToIntBits(nota) != Float.floatToIntBits(other.nota))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Disciplina d) {
+		if (this.getNota() > d.getNota()) {
+			return -1;
+		} else if (this.getNota() < d.getNota()) {
+			return 1;
+		}
+		return 0;
 	}
 
 }
