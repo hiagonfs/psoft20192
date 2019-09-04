@@ -2,10 +2,6 @@ console.log("app rodando!");
 
 let URL = 'https://lab01-projsw-ufcg.herokuapp.com/api/disciplinas'; 
 
-function testandoOConsole() {
-    console.log("Foi!"); 
-}
-
 function fetch_disciplinas() {
 
     fetch(URL)
@@ -16,6 +12,6 @@ function fetch_disciplinas() {
 
 }
 
-window.teste = testandoOConsole; 
+$p = document.querySelector('body');
 
 window.fd = fetch_disciplinas;
