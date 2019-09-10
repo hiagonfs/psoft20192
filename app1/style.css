@@ -6,7 +6,7 @@ h1 {
     text-align: center
 }
 
-#button {
-    width: 1000px;
-    margin: 0 auto;
-}
+button {
+    margin:auto;
+    display:block;
+  }
