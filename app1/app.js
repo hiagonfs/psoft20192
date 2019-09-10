@@ -1,17 +1,24 @@
 console.log("app rodando!"); 
 
-let URL = 'https://lab01-projsw-ufcg.herokuapp.com/api/disciplinas'; 
+let disciplinas = []; 
 
-function fetch_disciplinas() {
+const endereço = 'https://lab01-projsw-ufcg.herokuapp.com/api/disciplinas'; 
 
-    fetch(URL)
-    .then(resposta => resposta.json())
-    .then(dados => {
-        console.log(dados);
-    })
+function fetch_disciplinas(dados) {
 
+    disciplinas = dados;
+    let $disciplinas = document.querySelector("div"); 
+    $disciplinas.innerHTML = ''; 
+    disciplinas.forEach((e,i) => {
+        let $p = document.createElement("p");
+        $disciplinas.appendChild($p); 
+        $p.innerText = "nome da disciplina: " + disciplinas[i].nome + ", nota: " + disciplinas[i].nota;  
+    }) 
 }
 
-$p = document.querySelector('body');
+(function run() {
+    fetch(endereço)
+    .then(r => r.json())
+    .then(fetch_disciplinas)
+}()); 
 
-window.fd = fetch_disciplinas;
