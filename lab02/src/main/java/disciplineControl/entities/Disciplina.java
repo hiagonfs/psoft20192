@@ -1,14 +1,25 @@
 package disciplineControl.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Disciplina implements Comparable<Disciplina> {
 
 	private String nome;
 	private float nota;
-	private int id;
+	@Id
+	@GeneratedValue
+	private Long id;
 
 	public Disciplina(String nome, float nota) {
 		this.nome = nome;
 		this.nota = nota;
+	}
+
+	public Disciplina() {
+		super();
 	}
 
 	public String getNome() {
@@ -27,11 +38,11 @@ public class Disciplina implements Comparable<Disciplina> {
 		this.nota = nota;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -39,7 +50,7 @@ public class Disciplina implements Comparable<Disciplina> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + Float.floatToIntBits(nota);
 		return result;

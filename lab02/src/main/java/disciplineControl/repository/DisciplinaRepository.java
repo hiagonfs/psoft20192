@@ -1,16 +1,13 @@
 package disciplineControl.repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import disciplineControl.entities.Disciplina;
 
-public class DisciplinaRepository {
-
-	private List<Disciplina> disciplinas = new ArrayList<Disciplina>();
-
-	public void save(List<Disciplina> disciplinas) {
-
-	}
+@Repository
+public interface DisciplinaRepository<T, ID extends Serializable> extends JpaRepository<Disciplina, Long> {
 
 }

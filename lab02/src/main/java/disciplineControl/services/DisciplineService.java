@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
@@ -20,7 +21,11 @@ import disciplineControl.repository.DisciplinaRepository;
 public class DisciplineService {
 
 	@Autowired
-	private DisciplinaRepository disciplinaRepository;
+	private DisciplinaRepository<Disciplina, Long> disciplinaRepositoryDAO;
+
+	public DisciplineService(DisciplinaRepository<Disciplina, Long> disciplinasDAO) {
+		this.disciplinaRepositoryDAO = disciplinasDAO;
+	}
 
 	@PostConstruct
 	public void initDisciplines() throws Exception {
@@ -31,7 +36,7 @@ public class DisciplineService {
 		InputStream input = TypeReference.class.getResourceAsStream("/json/disciplinas.json");
 		try {
 			List<Disciplina> disciplinas = mapper.readValue(input, typeReference);
-			this.disciplinaRepository.save(disciplinas);
+			this.disciplinaRepositoryDAO.saveAll(disciplinas);
 		} catch (Exception e) {
 			throw new Exception("Erro no cadastro de alunos!");
 		}
@@ -39,34 +44,15 @@ public class DisciplineService {
 	}
 
 	public Disciplina addDisciplina(Disciplina newDiscipline) {
-		Disciplina d = newDiscipline;
-		d.setId(idDiscipline);
-		disciplinas.add(d);
-		idDiscipline++;
-		return d;
+		return this.disciplinaRepositoryDAO.save(newDiscipline);
 	}
 
-	public Disciplina deleteDisciplina(int id) {
-		Disciplina d = getDisciplinas(id);
-		removeDisciplina(id);
-		return d;
+	public List<Disciplina> getDisciplinas() {
+		return disciplinaRepositoryDAO.findAll();
 	}
 
 	private void removeDisciplina(int id) {
-		for (int i = 0; i < disciplinas.size(); i++) {
-			if (disciplinas.get(i).getId() == id) {
-				disciplinas.remove(i);
-			}
-		}
-	}
 
-	public Disciplina getDisciplinas(int id) {
-		for (int i = 0; i < disciplinas.size(); i++) {
-			if (disciplinas.get(i).getId() == id) {
-				return disciplinas.get(i);
-			}
-		}
-		return null;
 	}
 
 	public Disciplina setNomeDisciplina(int id, Disciplina d) {
@@ -84,6 +70,10 @@ public class DisciplineService {
 	public List<Disciplina> getDisciplinesOrdered() {
 		Collections.sort(disciplinas);
 		return disciplinas;
+	}
+
+	public Optional<Disciplina> getDisciplina(Long id) {
+		return this.disciplinaRepositoryDAO.findById(id);
 	}
 
 }

@@ -2,6 +2,7 @@ package disciplineControl.controllers;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import javax.xml.ws.Response;
 
@@ -34,7 +35,7 @@ public class DisciplineController {
 
 	@RequestMapping("/v1/api/disciplinas")
 	public ResponseEntity<List<Disciplina>> getDisciplines() {
-		return new ResponseEntity<List<Disciplina>>(disciplineService.getDisciplines(), HttpStatus.OK);
+		return new ResponseEntity<List<Disciplina>>(disciplineService.getDisciplinas(), HttpStatus.OK);
 	}
 
 	@PostMapping("/v1/api/disciplinas")
@@ -43,12 +44,12 @@ public class DisciplineController {
 	}
 
 	@RequestMapping("/v1/api/disciplinas/{id}")
-	public ResponseEntity<Disciplina> getDiscipline(@PathVariable int id) {
+	public ResponseEntity<Disciplina> getDiscipline(@PathVariable Long id) {
 
-		Disciplina disciplinaEncontrada = disciplineService.getDisciplinas(id);
+		Optional<Disciplina> disciplinaEncontrada = disciplineService.getDisciplina(id);
 
-		if (disciplinaEncontrada != null) {
-			return new ResponseEntity<Disciplina>(disciplinaEncontrada, HttpStatus.OK);
+		if (disciplinaEncontrada.isPresent()) {
+			return new ResponseEntity<Disciplina>(disciplinaEncontrada.get(), HttpStatus.OK);
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Disciplina nao encontrada");
 		}
@@ -56,7 +57,7 @@ public class DisciplineController {
 	}
 
 	@PutMapping("/v1/api/disciplinas/{id}/nome")
-	public ResponseEntity<Disciplina> setDisciplina(@PathVariable int id, @RequestBody Disciplina disciplina) {
+	public ResponseEntity<Disciplina> setDisciplina(@PathVariable Long id, @RequestBody Disciplina disciplina) {
 
 		Disciplina disciplinaEncontrada = disciplineService.getDisciplinas(id);
 		disciplinaEncontrada.setNome(disciplina.getNome());
@@ -83,7 +84,7 @@ public class DisciplineController {
 	}
 
 	@DeleteMapping("/v1/api/disciplinas/{id}")
-	public ResponseEntity<Disciplina> removeDisciplinaId(@PathVariable int id) {
+	public ResponseEntity<Disciplina> removeDisciplinaId(@PathVariable Long id) {
 
 		Disciplina disciplinaEncontrada = disciplineService.getDisciplinas(id);
 
