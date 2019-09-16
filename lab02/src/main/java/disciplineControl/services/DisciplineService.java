@@ -51,8 +51,16 @@ public class DisciplineService {
 		return disciplinaRepositoryDAO.findAll();
 	}
 
-	private void removeDisciplina(int id) {
+	public Optional<Disciplina> getDisciplina(Long id) {
+		return this.disciplinaRepositoryDAO.findById(id);
+	}
 
+	private Optional<Disciplina> removeDisciplina(Long id) {
+		Optional<Disciplina> d = getDisciplina(id);
+		if (d.isPresent()) {
+			this.disciplinaRepositoryDAO.deleteById(id);
+		}
+		return d;
 	}
 
 	public Disciplina setNomeDisciplina(int id, Disciplina d) {
@@ -70,10 +78,6 @@ public class DisciplineService {
 	public List<Disciplina> getDisciplinesOrdered() {
 		Collections.sort(disciplinas);
 		return disciplinas;
-	}
-
-	public Optional<Disciplina> getDisciplina(Long id) {
-		return this.disciplinaRepositoryDAO.findById(id);
 	}
 
 }
