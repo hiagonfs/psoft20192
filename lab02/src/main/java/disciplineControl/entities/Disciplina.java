@@ -14,7 +14,7 @@ public class Disciplina implements Comparable<Disciplina> {
 	@Id
 	@GeneratedValue
 	private Long id;
-	private List<String> comentarios;
+	private String comentarios;
 	private int likes;
 
 	public Disciplina(String nome, float nota) {
@@ -54,11 +54,11 @@ public class Disciplina implements Comparable<Disciplina> {
 		this.id = id;
 	}
 
-	public List<String> getComentarios() {
+	public String getComentarios() {
 		return comentarios;
 	}
 
-	public void setComentarios(List<String> comentarios) {
+	public void setComentarios(String comentarios) {
 		this.comentarios = comentarios;
 	}
 
