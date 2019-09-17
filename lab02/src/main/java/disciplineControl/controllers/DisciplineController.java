@@ -1,10 +1,9 @@
 package disciplineControl.controllers;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-import javax.xml.ws.Response;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,12 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import disciplineControl.entities.Disciplina;
-import disciplineControl.entities.Usuario;
 import disciplineControl.services.DisciplineService;
 
 @RestController
@@ -58,13 +55,14 @@ public class DisciplineController {
 	}
 
 	@PutMapping("/v1/api/disciplinas/{id}/nome")
+	@Transactional
 	public ResponseEntity<Disciplina> setDisciplina(@PathVariable Long id, @RequestBody Disciplina disciplina) {
 
 		Optional<Disciplina> disciplinaEncontrada = disciplineService.getDisciplina(id);
 		disciplinaEncontrada.get().setNome(disciplina.getNome());
 
 		if (disciplinaEncontrada.isPresent()) {
-			return new ResponseEntity<Disciplina>(disciplineService.setNomeDisciplina(id, disciplinaEncontrada),
+			return new ResponseEntity<Disciplina>(disciplineService.setNomeDisciplina(id, disciplinaEncontrada).get(),
 					HttpStatus.OK);
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Disciplina nao encontrada");
@@ -78,7 +76,7 @@ public class DisciplineController {
 		disciplinaEncontrada.get().setNome(disciplina.getNome());
 
 		if (disciplinaEncontrada.isPresent()) {
-			return new ResponseEntity<Disciplina>(disciplineService.setNotaDisciplina(id, disciplinaEncontrada),
+			return new ResponseEntity<Disciplina>(disciplineService.setNotaDisciplina(id, disciplinaEncontrada).get(),
 					HttpStatus.OK);
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Disciplina nao encontrada");
