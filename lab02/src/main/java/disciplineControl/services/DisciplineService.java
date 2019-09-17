@@ -55,7 +55,7 @@ public class DisciplineService {
 		return this.disciplinaRepositoryDAO.findById(id);
 	}
 
-	private Optional<Disciplina> removeDisciplina(Long id) {
+	public Optional<Disciplina> removeDisciplina(Long id) {
 		Optional<Disciplina> d = getDisciplina(id);
 		if (d.isPresent()) {
 			this.disciplinaRepositoryDAO.deleteById(id);
@@ -63,21 +63,25 @@ public class DisciplineService {
 		return d;
 	}
 
-	public Disciplina setNomeDisciplina(int id, Disciplina d) {
-		removeDisciplina(id);
-		disciplinas.add(d);
+	public Optional<Disciplina> setNomeDisciplina(Long id, Disciplina newD) {
+		Optional<Disciplina> d = getDisciplina(id);
+		if (d.isPresent()) {
+			d.get().setNome(newD.getNome());
+		}
 		return d;
 	}
 
-	public Disciplina setNotaDisciplina(int id, Disciplina d) {
-		removeDisciplina(id);
-		disciplinas.add(d);
+	public Optional<Disciplina> setNotaDisciplina(Long id, Disciplina newD) {
+		Optional<Disciplina> d = getDisciplina(id);
+		if (d.isPresent()) {
+			d.get().setNota(newD.getNota());
+		}
 		return d;
 	}
 
 	public List<Disciplina> getDisciplinesOrdered() {
-		Collections.sort(disciplinas);
-		return disciplinas;
+		Collections.sort(this.disciplinaRepositoryDAO.findAll());
+		return getDisciplinas();
 	}
 
 }

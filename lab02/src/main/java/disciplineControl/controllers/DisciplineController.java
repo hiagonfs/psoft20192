@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import disciplineControl.entities.Disciplina;
+import disciplineControl.entities.Usuario;
 import disciplineControl.services.DisciplineService;
 
 @RestController
@@ -59,10 +60,10 @@ public class DisciplineController {
 	@PutMapping("/v1/api/disciplinas/{id}/nome")
 	public ResponseEntity<Disciplina> setDisciplina(@PathVariable Long id, @RequestBody Disciplina disciplina) {
 
-		Disciplina disciplinaEncontrada = disciplineService.getDisciplinas(id);
-		disciplinaEncontrada.setNome(disciplina.getNome());
+		Optional<Disciplina> disciplinaEncontrada = disciplineService.getDisciplina(id);
+		disciplinaEncontrada.get().setNome(disciplina.getNome());
 
-		if (disciplinaEncontrada != null) {
+		if (disciplinaEncontrada.isPresent()) {
 			return new ResponseEntity<Disciplina>(disciplineService.setNomeDisciplina(id, disciplinaEncontrada),
 					HttpStatus.OK);
 		} else {
@@ -71,11 +72,12 @@ public class DisciplineController {
 	}
 
 	@PutMapping("/v1/api/disciplinas/{id}/nota")
-	public ResponseEntity<Disciplina> setNotaDisciplina(@PathVariable int id, @RequestBody Disciplina disciplina) {
-		Disciplina disciplinaEncontrada = disciplineService.getDisciplinas(id);
-		disciplinaEncontrada.setNota(disciplina.getNota());
+	public ResponseEntity<Disciplina> setNotaDisciplina(@PathVariable Long id, @RequestBody Disciplina disciplina) {
 
-		if (disciplinaEncontrada != null) {
+		Optional<Disciplina> disciplinaEncontrada = disciplineService.getDisciplina(id);
+		disciplinaEncontrada.get().setNome(disciplina.getNome());
+
+		if (disciplinaEncontrada.isPresent()) {
 			return new ResponseEntity<Disciplina>(disciplineService.setNotaDisciplina(id, disciplinaEncontrada),
 					HttpStatus.OK);
 		} else {
@@ -86,10 +88,10 @@ public class DisciplineController {
 	@DeleteMapping("/v1/api/disciplinas/{id}")
 	public ResponseEntity<Disciplina> removeDisciplinaId(@PathVariable Long id) {
 
-		Disciplina disciplinaEncontrada = disciplineService.getDisciplinas(id);
+		Optional<Disciplina> disciplinaEncontrada = disciplineService.getDisciplina(id);
 
-		if (disciplinaEncontrada != null) {
-			return new ResponseEntity<Disciplina>(disciplineService.deleteDisciplina(id), HttpStatus.OK);
+		if (disciplinaEncontrada.isPresent()) {
+			return new ResponseEntity<Disciplina>(disciplineService.removeDisciplina(id).get(), HttpStatus.OK);
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Disciplina nao encontrada");
 		}
