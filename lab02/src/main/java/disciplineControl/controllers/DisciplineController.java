@@ -56,28 +56,25 @@ public class DisciplineController {
 
 	@PutMapping("/v1/api/disciplinas/{id}/nome")
 	@Transactional
-	public ResponseEntity<Disciplina> setDisciplina(@PathVariable Long id, @RequestBody Disciplina disciplina) {
+	public ResponseEntity<Disciplina> setNomeDisciplina(@PathVariable Long id, @RequestBody Disciplina disciplina) {
 
-		Optional<Disciplina> disciplinaEncontrada = disciplineService.getDisciplina(id);
-		disciplinaEncontrada.get().setNome(disciplina.getNome());
+		Optional<Disciplina> d = disciplineService.setNomeDisciplina(id, disciplina);
 
-		if (disciplinaEncontrada.isPresent()) {
-			return new ResponseEntity<Disciplina>(disciplineService.setNomeDisciplina(id, disciplinaEncontrada).get(),
-					HttpStatus.OK);
+		if (d.isPresent()) {
+			return new ResponseEntity<Disciplina>(d.get(), HttpStatus.OK);
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Disciplina nao encontrada");
 		}
+
 	}
 
 	@PutMapping("/v1/api/disciplinas/{id}/nota")
 	public ResponseEntity<Disciplina> setNotaDisciplina(@PathVariable Long id, @RequestBody Disciplina disciplina) {
 
-		Optional<Disciplina> disciplinaEncontrada = disciplineService.getDisciplina(id);
-		disciplinaEncontrada.get().setNome(disciplina.getNome());
+		Optional<Disciplina> d = disciplineService.setNotaDisciplina(id, disciplina);
 
-		if (disciplinaEncontrada.isPresent()) {
-			return new ResponseEntity<Disciplina>(disciplineService.setNotaDisciplina(id, disciplinaEncontrada).get(),
-					HttpStatus.OK);
+		if (d.isPresent()) {
+			return new ResponseEntity<Disciplina>(d.get(), HttpStatus.OK);
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Disciplina nao encontrada");
 		}

@@ -63,18 +63,18 @@ public class DisciplineService {
 		return d;
 	}
 
-	public Optional<Disciplina> setNomeDisciplina(Long id, Optional<Disciplina> newD) {
+	public Optional<Disciplina> setNomeDisciplina(Long id, Disciplina newD) {
 		Optional<Disciplina> d = getDisciplina(id);
 		if (d.isPresent()) {
-			d.get().setNome(newD.get().getNome());
+			d.get().setNome(newD.getNome());
 		}
 		return d;
 	}
 
-	public Optional<Disciplina> setNotaDisciplina(Long id, Optional<Disciplina> newD) {
+	public Optional<Disciplina> setNotaDisciplina(Long id, Disciplina newD) {
 		Optional<Disciplina> d = getDisciplina(id);
 		if (d.isPresent()) {
-			d.get().setNota(newD.get().getNota());
+			d.get().setNota(newD.getNota());
 		}
 		return d;
 	}
