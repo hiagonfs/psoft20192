@@ -98,7 +98,7 @@ public class DisciplineController {
 
 	@RequestMapping("/v1/disciplinas/ranking")
 	public ResponseEntity<List<Disciplina>> getDisciplinesOrdered() {
-		return new ResponseEntity<List<Disciplina>>(disciplineService.getDisciplinesOrdered(), HttpStatus.OK);
+		return new ResponseEntity<List<Disciplina>>(disciplineService.disciplinasRankedas(), HttpStatus.OK);
 	}
 
 }
