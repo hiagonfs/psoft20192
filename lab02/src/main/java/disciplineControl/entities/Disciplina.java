@@ -22,6 +22,11 @@ public class Disciplina implements Comparable<Disciplina> {
 		this.nota = nota;
 	}
 
+	public Disciplina(String nome) {
+		super();
+		this.nome = nome;
+	}
+
 	public Disciplina(String nome, double nota, long id, String comentarios, int likes) {
 		super();
 		this.nome = nome;

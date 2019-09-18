@@ -1,5 +1,6 @@
 package disciplineControl.services;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
@@ -21,11 +22,8 @@ public class DisciplineService {
 	private DisciplinaRepository<Disciplina, Long> disciplinaRepositoryDAO;
 
 	public DisciplineService(DisciplinaRepository<Disciplina, Long> disciplinasDAO) {
-		super(); 
+		super();
 		this.disciplinaRepositoryDAO = disciplinasDAO;
-	}
-	
-	public DisciplineService() {
 	}
 
 	@PostConstruct
@@ -38,8 +36,8 @@ public class DisciplineService {
 		try {
 			List<Disciplina> disciplinas = mapper.readValue(input, typeReference);
 			this.disciplinaRepositoryDAO.saveAll(disciplinas);
-		} catch (Exception e) {
-			throw new Exception("Erro no cadastro de disciplinas!");
+		} catch (IOException e) {
+			throw new Exception("A mensagem eh: " + e.getMessage());
 		}
 
 	}

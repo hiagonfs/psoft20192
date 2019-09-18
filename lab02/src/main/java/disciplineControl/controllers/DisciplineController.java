@@ -34,17 +34,17 @@ public class DisciplineController {
 		return "...";
 	}
 
-	@RequestMapping("/v1/api/disciplinas")
+	@RequestMapping("/v1/disciplinas")
 	public ResponseEntity<List<Disciplina>> getDisciplines() {
 		return new ResponseEntity<List<Disciplina>>(disciplineService.getDisciplinas(), HttpStatus.OK);
 	}
 
-	@PostMapping("/v1/api/disciplinas")
+	@PostMapping("/v1/disciplinas")
 	public ResponseEntity<Disciplina> addNewDiscipline(@RequestBody Disciplina discipline) {
 		return new ResponseEntity<Disciplina>(disciplineService.addDisciplina(discipline), HttpStatus.CREATED);
 	}
 
-	@RequestMapping("/v1/api/disciplinas/{id}")
+	@RequestMapping("/v1/disciplinas/{id}")
 	public ResponseEntity<Disciplina> getDiscipline(@PathVariable Long id) {
 
 		Optional<Disciplina> disciplinaEncontrada = disciplineService.getDisciplina(id);
@@ -57,7 +57,7 @@ public class DisciplineController {
 
 	}
 
-	@PutMapping("/v1/api/disciplinas/{id}/nome")
+	@PutMapping("/v1/disciplinas/{id}/nome")
 	@Transactional
 	public ResponseEntity<Disciplina> setNomeDisciplina(@PathVariable Long id, @RequestBody Disciplina disciplina) {
 
@@ -71,7 +71,7 @@ public class DisciplineController {
 
 	}
 
-	@PutMapping("/v1/api/disciplinas/{id}/nota")
+	@PutMapping("/v1/disciplinas/{id}/nota")
 	public ResponseEntity<Disciplina> setNotaDisciplina(@PathVariable Long id, @RequestBody Disciplina disciplina) {
 
 		Optional<Disciplina> d = disciplineService.setNotaDisciplina(id, disciplina);
@@ -83,7 +83,7 @@ public class DisciplineController {
 		}
 	}
 
-	@DeleteMapping("/v1/api/disciplinas/{id}")
+	@DeleteMapping("/v1/disciplinas/{id}")
 	public ResponseEntity<Disciplina> removeDisciplinaId(@PathVariable Long id) {
 
 		Optional<Disciplina> disciplinaEncontrada = disciplineService.getDisciplina(id);
@@ -96,7 +96,7 @@ public class DisciplineController {
 
 	}
 
-	@RequestMapping("/v1/api/disciplinas/ranking")
+	@RequestMapping("/v1/disciplinas/ranking")
 	public ResponseEntity<List<Disciplina>> getDisciplinesOrdered() {
 		return new ResponseEntity<List<Disciplina>>(disciplineService.getDisciplinesOrdered(), HttpStatus.OK);
 	}
