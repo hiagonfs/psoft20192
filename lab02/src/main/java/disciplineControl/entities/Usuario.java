@@ -1,9 +1,14 @@
 package disciplineControl.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Usuario {
 
 	private String nome;
 	private String senha;
+	@Id
 	private String email;
 
 	public Usuario(String nome, String senha, String email) {
