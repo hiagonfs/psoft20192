@@ -23,6 +23,9 @@ public class DisciplineService {
 	public DisciplineService(DisciplinaRepository<Disciplina, Long> disciplinasDAO) {
 		this.disciplinaRepositoryDAO = disciplinasDAO;
 	}
+	
+	public DisciplineService() {
+	}
 
 	@PostConstruct
 	public void initDisciplines() throws Exception {
