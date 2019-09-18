@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,8 +22,12 @@ import disciplineControl.services.DisciplineService;
 @RestController
 public class DisciplineController {
 
-	@Autowired
 	private DisciplineService disciplineService;
+	
+	public DisciplineController(DisciplineService dService) {
+		super(); 
+		this.disciplineService = dService; 
+	}
 
 	@RequestMapping("/")
 	public String index() {

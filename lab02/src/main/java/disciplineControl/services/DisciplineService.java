@@ -21,6 +21,7 @@ public class DisciplineService {
 	private DisciplinaRepository<Disciplina, Long> disciplinaRepositoryDAO;
 
 	public DisciplineService(DisciplinaRepository<Disciplina, Long> disciplinasDAO) {
+		super(); 
 		this.disciplinaRepositoryDAO = disciplinasDAO;
 	}
 	

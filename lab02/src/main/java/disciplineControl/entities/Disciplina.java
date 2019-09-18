@@ -12,13 +12,23 @@ public class Disciplina implements Comparable<Disciplina> {
 	private double nota;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private long id;
 	private String comentarios;
 	private int likes;
 
 	public Disciplina(String nome, float nota) {
+		super();
 		this.nome = nome;
 		this.nota = nota;
+	}
+
+	public Disciplina(String nome, double nota, long id, String comentarios, int likes) {
+		super();
+		this.nome = nome;
+		this.nota = nota;
+		this.id = id;
+		this.comentarios = comentarios;
+		this.likes = likes;
 	}
 
 	public Disciplina() {
@@ -73,7 +83,7 @@ public class Disciplina implements Comparable<Disciplina> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
 		return result;
 	}
 
@@ -86,10 +96,7 @@ public class Disciplina implements Comparable<Disciplina> {
 		if (getClass() != obj.getClass())
 			return false;
 		Disciplina other = (Disciplina) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
+		if (id != other.id)
 			return false;
 		return true;
 	}
