@@ -81,8 +81,7 @@ public class DisciplineService {
 	}
 
 	public List<Disciplina> disciplinasRankedas() {
-		List<Disciplina> listaRankeada = new ArrayList<>();
-		Collections.copy(listaRankeada, this.disciplinaRepositoryDAO.findAll());
+		List<Disciplina> listaRankeada = this.disciplinaRepositoryDAO.findAll(); 
 		Collections.sort(listaRankeada);
 		return listaRankeada;
 	}
