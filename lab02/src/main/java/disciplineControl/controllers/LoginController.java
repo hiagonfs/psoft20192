@@ -5,14 +5,12 @@ import java.util.Optional;
 
 import javax.servlet.ServletException;
 
-import org.springframework.expression.spel.support.ReflectivePropertyAccessor.OptimalPropertyAccessor;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import disciplineControl.entities.Usuario;
 import disciplineControl.services.UsuarioService;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -37,12 +35,17 @@ public class LoginController {
 
 		verificaSenha(usuario, usuarioRecuperado);
 
-		String tokenGerado = Jwts.builder().setSubject(usuarioRecuperado.get().getEmail())
-				.signWith(SignatureAlgorithm.ES512, TOKEN_KEY)
-				.setExpiration(new Date(System.currentTimeMillis() + 1 * 60 * 1000)).compact();
+		String tokenGerado = geracaoDeToken(usuarioRecuperado);
 
 		return new LoginResponse(tokenGerado);
 
+	}
+
+	private String geracaoDeToken(Optional<Usuario> usuarioRecuperado) {
+		String tokenGerado = Jwts.builder().setSubject(usuarioRecuperado.get().getEmail())
+				.signWith(SignatureAlgorithm.ES512, TOKEN_KEY)
+				.setExpiration(new Date(System.currentTimeMillis() + 1 * 60 * 1000)).compact();
+		return tokenGerado;
 	}
 
 	private void verificaUsuarioNoSistema(Optional<Usuario> usuarioRecuperado) throws ServletException {
