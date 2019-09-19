@@ -34,4 +34,8 @@ public class UsuarioService {
 		return null;
 	}
 
+	public Optional<Usuario> getUsuarioById(String email) {
+		return this.usuarioRepositoryDAO.findById(email);
+	}
+
 }
