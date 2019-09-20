@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.servlet.ServletException;
 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +27,8 @@ public class LoginController {
 		super();
 		this.usuarioService = uService;
 	}
-
+	
+	@PostMapping("/login")
 	public LoginResponse autenticacao(@RequestBody Usuario usuario) throws ServletException {
 
 		Optional<Usuario> usuarioRecuperado = usuarioService.getUsuarioById(usuario.getEmail());
