@@ -45,7 +45,7 @@ public class LoginController {
 
 	private String geracaoDeToken(Optional<Usuario> usuarioRecuperado) {
 		String tokenGerado = Jwts.builder().setSubject(usuarioRecuperado.get().getEmail())
-				.signWith(SignatureAlgorithm.ES512, TOKEN_KEY)
+				.signWith(SignatureAlgorithm.HS512, TOKEN_KEY)
 				.setExpiration(new Date(System.currentTimeMillis() + 1 * 60 * 1000)).compact();
 		return tokenGerado;
 	}

@@ -1,5 +1,7 @@
 package disciplineControl.controllers;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,6 +37,11 @@ public class UsuarioController {
 	@RequestMapping("/usuarios/{email}")
 	public ResponseEntity<Usuario> getUsuarioById(@PathVariable String email) {
 		return new ResponseEntity<Usuario>(usuarioService.getUsuarioById(email).get(), HttpStatus.OK);
+	}
+
+	@RequestMapping("/v1/auth/usuarios")
+	public ResponseEntity<List<Usuario>> retornaUsuariosCadastrados() {
+		return new ResponseEntity<List<Usuario>>(usuarioService.getUsuarios(), HttpStatus.OK);
 	}
 
 }
