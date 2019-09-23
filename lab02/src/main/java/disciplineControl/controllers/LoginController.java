@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import disciplineControl.entities.Usuario;
+import disciplineControl.services.JwtService;
 import disciplineControl.services.UsuarioService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -22,32 +23,36 @@ public class LoginController {
 	private final String TOKEN_KEY = "minha_senha";
 
 	private UsuarioService usuarioService;
+	private JwtService jwtService;
 
-	public LoginController(UsuarioService uService) {
+	public LoginController(UsuarioService uService, JwtService jwtService) {
 		super();
 		this.usuarioService = uService;
+		this.jwtService = jwtService;
 	}
-	
-	@PostMapping("/login")
-	public LoginResponse autenticacao(@RequestBody Usuario usuario) throws ServletException {
 
-		Optional<Usuario> usuarioRecuperado = usuarioService.getUsuarioById(usuario.getEmail());
+	/**
+	 * Este método recupera as credenciais do usuário no corpo da requisição HTTP,
+	 * verifica se o usuário existe e se a senha passada bate com a senha do usuário
+	 * na base de dados.
+	 * 
+	 * @param usuario
+	 * @return token gerado pela autenticacao
+	 * @throws ServletException
+	 */
+	@PostMapping("/login")
+	public LoginResponse autenticacao(@RequestBody String email) throws ServletException {
+
+		Optional<Usuario> usuarioRecuperado = usuarioService.getUsuarioById(email);
 
 		verificaUsuarioNoSistema(usuarioRecuperado);
 
-		verificaSenha(usuario, usuarioRecuperado);
+		verificaSenha(email, usuarioRecuperado);
 
-		String tokenGerado = geracaoDeToken(usuarioRecuperado);
+		String tokenGerado = jwtService.geraToken(email);
 
 		return new LoginResponse(tokenGerado);
 
-	}
-
-	private String geracaoDeToken(Optional<Usuario> usuarioRecuperado) {
-		String tokenGerado = Jwts.builder().setSubject(usuarioRecuperado.get().getEmail())
-				.signWith(SignatureAlgorithm.HS512, TOKEN_KEY)
-				.setExpiration(new Date(System.currentTimeMillis() + 1 * 60 * 1000)).compact();
-		return tokenGerado;
 	}
 
 	private void verificaUsuarioNoSistema(Optional<Usuario> usuarioRecuperado) throws ServletException {
@@ -56,8 +61,8 @@ public class LoginController {
 		}
 	}
 
-	private void verificaSenha(Usuario usuario, Optional<Usuario> usuarioRecuperado) throws ServletException {
-		if (!usuario.getSenha().equals(usuarioRecuperado.get().getSenha())) {
+	private void verificaSenha(String email, Optional<Usuario> usuarioRecuperado) throws ServletException {
+		if (!email.equals(usuarioRecuperado.get().getSenha())) {
 			throw new ServletException("Senha invalida!");
 		}
 	}

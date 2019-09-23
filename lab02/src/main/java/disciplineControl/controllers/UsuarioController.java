@@ -29,7 +29,7 @@ public class UsuarioController {
 		return new ResponseEntity<Usuario>(usuarioService.cadastrarUsuario(usuario), HttpStatus.CREATED);
 	}
 
-	@DeleteMapping("/auth/usuarios/")
+	@DeleteMapping("/auth/usuarios/{email}")
 	public ResponseEntity<Usuario> excluirCadastro(@RequestBody Usuario usuario) {
 		return new ResponseEntity<Usuario>(usuarioService.excluirUsuario(usuario), HttpStatus.OK);
 	}
