@@ -1,9 +1,5 @@
 package disciplineControl.controllers;
 
-import java.util.List;
-
-import javax.servlet.ServletException;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,7 +35,7 @@ public class UsuarioController {
 	public ResponseEntity<Usuario> excluirCadastro(@PathVariable String email,
 			@RequestHeader("Authorization") String header) {
 
-		if (usuarioService.getUsuarioById(email).isEmpty()) {
+		if (!usuarioService.getUsuarioById(email).isPresent()) {
 			return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
 		}
 
@@ -47,7 +43,7 @@ public class UsuarioController {
 			if (jwtService.usuarioTemPermissao(email, header)) {
 				return new ResponseEntity<Usuario>(usuarioService.excluirUsuario(email), HttpStatus.OK);
 			}
-		} catch (ServletException e) {
+		} catch (Exception e) {
 			return new ResponseEntity<Usuario>(HttpStatus.FORBIDDEN);
 		}
 		return new ResponseEntity<Usuario>(HttpStatus.UNAUTHORIZED);
@@ -56,11 +52,6 @@ public class UsuarioController {
 	@RequestMapping("/usuarios/{email}")
 	public ResponseEntity<Usuario> getUsuarioById(@PathVariable String email) {
 		return new ResponseEntity<Usuario>(usuarioService.getUsuarioById(email).get(), HttpStatus.OK);
-	}
-
-	@RequestMapping("/v1/auth/usuarios")
-	public ResponseEntity<List<Usuario>> retornaUsuariosCadastrados() {
-		return new ResponseEntity<List<Usuario>>(usuarioService.getUsuarios(), HttpStatus.OK);
 	}
 
 }

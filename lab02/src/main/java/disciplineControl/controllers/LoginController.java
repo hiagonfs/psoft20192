@@ -1,6 +1,5 @@
 package disciplineControl.controllers;
 
-import java.util.Date;
 import java.util.Optional;
 
 import javax.servlet.ServletException;
@@ -13,14 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import disciplineControl.entities.Usuario;
 import disciplineControl.services.JwtService;
 import disciplineControl.services.UsuarioService;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 @RestController
 @RequestMapping("/auth")
 public class LoginController {
-
-	private final String TOKEN_KEY = "minha_senha";
 
 	private UsuarioService usuarioService;
 	private JwtService jwtService;
@@ -45,7 +40,7 @@ public class LoginController {
 
 		Optional<Usuario> usuarioRecuperado = usuarioService.getUsuarioById(email);
 
-		verificaUsuarioNoSistema(usuarioRecuperado);
+		verificaUsuario(usuarioRecuperado);
 
 		verificaSenha(email, usuarioRecuperado);
 
@@ -55,8 +50,8 @@ public class LoginController {
 
 	}
 
-	private void verificaUsuarioNoSistema(Optional<Usuario> usuarioRecuperado) throws ServletException {
-		if (usuarioRecuperado.isEmpty()) {
+	private void verificaUsuario(Optional<Usuario> usuarioRecuperado) throws ServletException {
+		if (!usuarioRecuperado.isPresent()) {
 			throw new ServletException("Usuario nao encontrado no sistema!");
 		}
 	}
