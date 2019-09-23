@@ -17,4 +17,8 @@ public class JwtService {
 				.setExpiration(new Date(System.currentTimeMillis() + 1 * 60 * 1000)).compact();
 	}
 
+	public boolean usuarioTemPermissao(String email, String header) {
+		return false;
+	}
+
 }

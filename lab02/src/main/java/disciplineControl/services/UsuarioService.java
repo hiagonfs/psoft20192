@@ -31,14 +31,16 @@ public class UsuarioService {
 		}
 	}
 
-	public Usuario excluirUsuario(Usuario usuario) {
-		return null;
+	public Usuario excluirUsuario(String email) {
+		Usuario u = getUsuarioById(email).get();
+		this.usuarioRepositoryDAO.deleteById(email);
+		return u;
 	}
 
 	public Optional<Usuario> getUsuarioById(String email) {
 		return this.usuarioRepositoryDAO.findById(email);
 	}
-	
+
 	public List<Usuario> getUsuarios() {
 		return this.usuarioRepositoryDAO.findAll();
 	}
