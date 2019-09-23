@@ -81,9 +81,15 @@ public class DisciplineService {
 	}
 
 	public List<Disciplina> disciplinasRankedas() {
-		List<Disciplina> listaRankeada = this.disciplinaRepositoryDAO.findAll(); 
+		List<Disciplina> listaRankeada = this.disciplinaRepositoryDAO.findAll();
 		Collections.sort(listaRankeada);
 		return listaRankeada;
+	}
+
+	public Optional<Disciplina> addLikeNaDisciplina(Long id) {
+		Optional<Disciplina> disciplina = getDisciplina(id);
+		disciplina.get().setLikes(disciplina.get().getLikes() + 1);
+		return disciplina;
 	}
 
 }

@@ -3,6 +3,7 @@ package disciplineControl.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.ServletException;
 import javax.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
@@ -17,34 +18,30 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import disciplineControl.entities.Disciplina;
+import disciplineControl.entities.Usuario;
 import disciplineControl.services.DisciplineService;
 
 @RestController
 public class DisciplineController {
 
 	private DisciplineService disciplineService;
-	
+
 	public DisciplineController(DisciplineService dService) {
-		super(); 
-		this.disciplineService = dService; 
+		super();
+		this.disciplineService = dService;
 	}
 
-	@RequestMapping("/")
-	public String index() {
-		return "...";
-	}
-
-	@RequestMapping("/v1/disciplinas")
+	@RequestMapping("/disciplinas")
 	public ResponseEntity<List<Disciplina>> getDisciplines() {
 		return new ResponseEntity<List<Disciplina>>(disciplineService.getDisciplinas(), HttpStatus.OK);
 	}
 
-	@PostMapping("/v1/disciplinas")
+	@PostMapping("/disciplinas")
 	public ResponseEntity<Disciplina> addNewDiscipline(@RequestBody Disciplina discipline) {
 		return new ResponseEntity<Disciplina>(disciplineService.addDisciplina(discipline), HttpStatus.CREATED);
 	}
 
-	@RequestMapping("/v1/disciplinas/{id}")
+	@RequestMapping("/disciplinas/{id}")
 	public ResponseEntity<Disciplina> getDiscipline(@PathVariable Long id) {
 
 		Optional<Disciplina> disciplinaEncontrada = disciplineService.getDisciplina(id);
@@ -57,7 +54,7 @@ public class DisciplineController {
 
 	}
 
-	@PutMapping("/v1/disciplinas/{id}/nome")
+	@PutMapping("/disciplinas/{id}/nome")
 	@Transactional
 	public ResponseEntity<Disciplina> setNomeDisciplina(@PathVariable Long id, @RequestBody Disciplina disciplina) {
 
@@ -71,7 +68,7 @@ public class DisciplineController {
 
 	}
 
-	@PutMapping("/v1/disciplinas/{id}/nota")
+	@PutMapping("/disciplinas/{id}/nota")
 	public ResponseEntity<Disciplina> setNotaDisciplina(@PathVariable Long id, @RequestBody Disciplina disciplina) {
 
 		Optional<Disciplina> d = disciplineService.setNotaDisciplina(id, disciplina);
@@ -83,7 +80,7 @@ public class DisciplineController {
 		}
 	}
 
-	@DeleteMapping("/v1/disciplinas/{id}")
+	@DeleteMapping("/disciplinas/{id}")
 	public ResponseEntity<Disciplina> removeDisciplinaId(@PathVariable Long id) {
 
 		Optional<Disciplina> disciplinaEncontrada = disciplineService.getDisciplina(id);
@@ -96,9 +93,18 @@ public class DisciplineController {
 
 	}
 
-	@RequestMapping("/v1/disciplinas/ranking")
+	@RequestMapping("/disciplinas/ranking")
 	public ResponseEntity<List<Disciplina>> getDisciplinesOrdered() {
 		return new ResponseEntity<List<Disciplina>>(disciplineService.disciplinasRankedas(), HttpStatus.OK);
+	}
+
+	@PutMapping("/disciplinas/likes/{id}")
+	public ResponseEntity<Disciplina> incrementaLike(@RequestBody Usuario usuario, @PathVariable Long id)
+			throws Exception {
+		if (!disciplineService.getDisciplina(id).isPresent()) {
+			throw new Exception("Disciplina nao encontrada!");
+		}
+		return new ResponseEntity<Disciplina>(disciplineService.addLikeNaDisciplina(id).get(), HttpStatus.OK);
 	}
 
 }

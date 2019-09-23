@@ -36,29 +36,29 @@ public class LoginController {
 	 * @throws ServletException
 	 */
 	@PostMapping("/login")
-	public LoginResponse autenticacao(@RequestBody String email) throws ServletException {
+	public LoginResponse autenticacao(@RequestBody Usuario usuario) throws ServletException {
 
-		Optional<Usuario> usuarioRecuperado = usuarioService.getUsuarioById(email);
+		Optional<Usuario> usuarioRecuperado = usuarioService.getUsuarioById(usuario.getEmail());
 
 		verificaUsuario(usuarioRecuperado);
 
-		verificaSenha(email, usuarioRecuperado);
+		verificaSenha(usuario, usuarioRecuperado);
 
-		String tokenGerado = jwtService.geraToken(email);
+		String tokenGerado = jwtService.geraToken(usuario.getEmail());
 
 		return new LoginResponse(tokenGerado);
 
 	}
 
-	private void verificaUsuario(Optional<Usuario> usuarioRecuperado) throws ServletException {
-		if (!usuarioRecuperado.isPresent()) {
-			throw new ServletException("Usuario nao encontrado no sistema!");
+	private void verificaSenha(Usuario usuario, Optional<Usuario> usuarioRecuperado) throws ServletException {
+		if (!usuario.getSenha().equals(usuarioRecuperado.get().getSenha())) {
+			throw new ServletException("Senha invalida!");
 		}
 	}
 
-	private void verificaSenha(String email, Optional<Usuario> usuarioRecuperado) throws ServletException {
-		if (!email.equals(usuarioRecuperado.get().getSenha())) {
-			throw new ServletException("Senha invalida!");
+	private void verificaUsuario(Optional<Usuario> usuarioRecuperado) throws ServletException {
+		if (!usuarioRecuperado.isPresent()) {
+			throw new ServletException("Usuario nao encontrado no sistema!");
 		}
 	}
 
