@@ -3,7 +3,6 @@ package disciplineControl.controllers;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.ServletException;
 import javax.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
@@ -68,7 +67,7 @@ public class DisciplineController {
 
 	}
 
-	@PutMapping("/disciplinas/{id}/nota")
+	@PutMapping("/disciplinas/nota/{id}")
 	public ResponseEntity<Disciplina> setNotaDisciplina(@PathVariable Long id, @RequestBody Disciplina disciplina) {
 
 		Optional<Disciplina> d = disciplineService.setNotaDisciplina(id, disciplina);
@@ -101,10 +100,24 @@ public class DisciplineController {
 	@PutMapping("/disciplinas/likes/{id}")
 	public ResponseEntity<Disciplina> incrementaLike(@RequestBody Usuario usuario, @PathVariable Long id)
 			throws Exception {
+		verificaDisciplinaNoSistema(id);
+		return new ResponseEntity<Disciplina>(disciplineService.addLikeNaDisciplina(id).get(), HttpStatus.OK);
+	}
+
+	private void verificaDisciplinaNoSistema(Long id) throws Exception {
 		if (!disciplineService.getDisciplina(id).isPresent()) {
 			throw new Exception("Disciplina nao encontrada!");
 		}
-		return new ResponseEntity<Disciplina>(disciplineService.addLikeNaDisciplina(id).get(), HttpStatus.OK);
+	}
+
+	@PutMapping("/disciplinas/comentarios/{id}")
+	public ResponseEntity<Disciplina> addComentarioNaDisciplina(@PathVariable Long id, @RequestBody String comentario)
+			throws Exception {
+
+		verificaDisciplinaNoSistema(id);
+
+		return new ResponseEntity<Disciplina>(disciplineService.addComentario(id, comentario).get(), HttpStatus.OK);
+
 	}
 
 }

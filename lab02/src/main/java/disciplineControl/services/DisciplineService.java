@@ -92,4 +92,10 @@ public class DisciplineService {
 		return disciplina;
 	}
 
+	public Optional<Disciplina> addComentario(Long id, String comentario) {
+		Optional<Disciplina> d = getDisciplina(id);
+		d.get().setComentarios(d.get().getComentarios() + " | " + comentario);
+		return d;
+	}
+
 }

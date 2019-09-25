@@ -26,7 +26,7 @@ public class UsuarioController {
 		this.jwtService = jwtService;
 	}
 
-	@PostMapping("/auth/usuarios")
+	@PostMapping("/usuarios")
 	public ResponseEntity<Usuario> cadastraUsuario(@RequestBody Usuario usuario) {
 		return new ResponseEntity<Usuario>(usuarioService.cadastrarUsuario(usuario), HttpStatus.CREATED);
 	}
