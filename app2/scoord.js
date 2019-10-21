@@ -32,16 +32,36 @@ function turma() {
         numero : numero, 
         nomeProfessor : null,
         estudantesMatriculados: [],
+        statusDaTurma: null,
 
         // functions
         getProfessor: () => nomeProfessor,
         defineProfessor: (nomeDoProfessor) => nomeProfessor = nomeDoProfessor,
         matriculaEstudante: (estudante) => estudantesMatriculados.push(estudante),
-        get_estudantesMatriculados: () => estudantesMatriculados
-
+        get_estudantesMatriculados: () => estudantesMatriculados,
+        set_status: (novoStatus) => statusDaTurma = novoStatus
 
     };
 
     return _turma; 
 
 }  
+
+function Professor (matricula, nome, rg, cpf) {
+
+    _professor = {
+
+        matricula : matricula,
+        nome: nome,
+        cpf: cpf,
+        rg: rg,
+
+        turmas: [],
+
+        aloca_turma: (t) => turmas.push(t), 
+        turmas: (semestre) => {}
+
+    };
+
+    return _professor;
+}
