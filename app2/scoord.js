@@ -1,45 +1,53 @@
-function disciplina(id, nome, creditos, pre_requisitos) {
+exports.disciplina = disciplina; 
+exports.turma = turma; 
+exports.professor = professor; 
 
-    let _id = id; 
+function disciplina(id, nome, creditos, pre_requisitos) {  
+
+    let _id = id;
   
       _disciplina = {
   
         // atributos
-          id: _id,
-          nome : nome,
-          creditos : creditos,
+          nome,
+          creditos,
           pre_requisitos: [],
           
           // functions
-          set_id: (novoId) => id = novoId,
-          get_id: () => id,
+
+          id: () => _id,
           set_nome: (novoNome) => nome = novoNome,
           get_nome: () => nome,
           addPreRequisito: (pre_requisito) => pre_requisitos.push(pre_requisito)
 
-  
       };
   
       return _disciplina; 
   
 }
 
-function turma() {
+function turma(disciplina, periodo) {
+
+    let _periodo = periodo;
 
     _turma = {
 
         // atributos
-        numero : numero, 
+        disciplina, 
         nomeProfessor : null,
         estudantesMatriculados: [],
         statusDaTurma: null,
 
         // functions
+        periodo: () => _periodo, 
         getProfessor: () => nomeProfessor,
         defineProfessor: (nomeDoProfessor) => nomeProfessor = nomeDoProfessor,
         matriculaEstudante: (estudante) => estudantesMatriculados.push(estudante),
-        get_estudantesMatriculados: () => estudantesMatriculados,
-        set_status: (novoStatus) => statusDaTurma = novoStatus
+        get_estudantesMatriculados: () => 0,
+        set_status: (novoStatus) => statusDaTurma = novoStatus,
+        desmatriculaEstudante: (estudante) => estudantesMatriculados.forEach((element, i) => {
+            console.log(element, i);
+        })
 
     };
 
@@ -47,14 +55,14 @@ function turma() {
 
 }  
 
-function Professor (matricula, nome, rg, cpf) {
+function professor (matricula, nome, rg, cpf) {
 
     _professor = {
 
-        matricula : matricula,
-        nome: nome,
-        cpf: cpf,
-        rg: rg,
+        matricula,
+        nome,
+        cpf,
+        rg,
 
         turmas: [],
 
@@ -65,3 +73,5 @@ function Professor (matricula, nome, rg, cpf) {
 
     return _professor;
 }
+
+
