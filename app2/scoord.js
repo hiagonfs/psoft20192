@@ -22,5 +22,26 @@ function disciplina(id, nome, creditos, pre_requisitos) {
   
       return _disciplina; 
   
-  }
-  
+}
+
+function turma() {
+
+    _turma = {
+
+        // atributos
+        numero : numero, 
+        nomeProfessor : null,
+        estudantesMatriculados: [],
+
+        // functions
+        getProfessor: () => nomeProfessor,
+        defineProfessor: (nomeDoProfessor) => nomeProfessor = nomeDoProfessor,
+        matriculaEstudante: (estudante) => estudantesMatriculados.push(estudante),
+        get_estudantesMatriculados: () => estudantesMatriculados
+
+
+    };
+
+    return _turma; 
+
+}  
